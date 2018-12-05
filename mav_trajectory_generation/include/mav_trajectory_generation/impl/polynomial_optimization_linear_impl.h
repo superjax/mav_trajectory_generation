@@ -294,7 +294,8 @@ void PolynomialOptimization<_N>::updateSegmentTimes(
 
   for (size_t i = 0; i < n_segments_; ++i) {
     const double segment_time = segment_times[i];
-    CHECK_GT(segment_time, 0) << "Segment times need to be greater than zero";
+    if (segment_time <= 0)
+      throw std::runtime_error("Segment times need to be greater than zero");
 
     computeQuadraticCostJacobian(derivative_to_optimize_, segment_time,
                                  &cost_matrices_[i]);
